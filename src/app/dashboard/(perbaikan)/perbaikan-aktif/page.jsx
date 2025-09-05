@@ -1,6 +1,7 @@
 // src/app/teknisi/perbaikan-aktif/page.jsx
 "use client";
 
+import { PaginationControls } from "@/components/common/PaginationControls";
 import ProtectedRoute from "@/components/HOC/ProtectedRoute";
 import { AddRepairModal } from "@/components/teknisi/AddRepairModal";
 import { ConfirmStartModal } from "@/components/teknisi/ConfirmationStartModal";
@@ -8,6 +9,7 @@ import RepairCard from "@/components/teknisi/RepairCard";
 import RepairTabs from "@/components/teknisi/RepairTabs";
 import { Button } from "@/components/ui/button";
 import { serviceOrderService } from "@/services/serviceOrder.service";
+import { useAuthStore } from "@/stores/auth.store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Plus, Search } from "lucide-react";
 import { useState } from "react";
@@ -22,6 +24,8 @@ export default function PerbaikanAktifPage() {
   const queryClient = useQueryClient();
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
+  const { user } = useAuthStore();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["service-orders", filter, search, page],
@@ -79,10 +83,11 @@ export default function PerbaikanAktifPage() {
             Search
           </Button>
         </div>
-
-        <Button size={"lg"} onClick={() => setIsModalOpen(true)}>
-          <Plus /> Tambah Perbaikan
-        </Button>
+        {user.role === "teknisi" && (
+          <Button size={"lg"} onClick={() => setIsModalOpen(true)}>
+            <Plus /> Tambah Perbaikan
+          </Button>
+        )}
       </div>
       {/* Tabs */}
       <RepairTabs
@@ -118,27 +123,15 @@ export default function PerbaikanAktifPage() {
         ))}
       {/* Empty */}
       {!isLoading && !isError && orders.length === 0 && (
-        <p className="text-gray-500 mt-4">Tidak ada perbaikan ditemukan.</p>
+        <p className="text-gray-500 mt-4 text-center py-20">
+          Tidak ada perbaikan ditemukan.
+        </p>
       )}
-      <div className="flex justify-center mt-6 gap-2">
-        <button
-          disabled={pagination.page === 1}
-          onClick={() => setPage((p) => p - 1)}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Prev
-        </button>
-        <span className="px-3 py-1">
-          {pagination.page} / {pagination.totalPages}
-        </span>
-        <button
-          disabled={pagination.page === pagination.totalPages}
-          onClick={() => setPage((p) => p + 1)}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+      <PaginationControls
+        page={pagination.page}
+        totalPages={pagination.totalPages}
+        onPageChange={setPage}
+      />
       <AddRepairModal
         open={isModalOpen}
         onOpenChange={() => setIsModalOpen(false)}

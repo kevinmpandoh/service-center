@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import PaymentModal from "./PaymentModal";
 import { PickupConfirmModal } from "./PickupConfirmModal";
 import RepairDetailModal from "./RepairDetailModal";
+import { useAuthStore } from "@/stores/auth.store";
 
 // src/components/RepairCard.jsx
 export default function RepairCard({ data, onKerjakan }) {
@@ -27,7 +28,7 @@ export default function RepairCard({ data, onKerjakan }) {
   const [openPayment, setOpenPayment] = useState(false);
   const [confirmPickup, setConfirmPickup] = useState(false);
   const [openDetail, setOpenDetail] = useState(false);
-
+  const { user } = useAuthStore();
   const queryClient = useQueryClient();
 
   const finishRepair = useMutation({
@@ -219,10 +220,10 @@ export default function RepairCard({ data, onKerjakan }) {
         >
           Lihat Detail
         </Button>
-        {data.status === "diterima" && (
+        {data.status === "diterima" && user.role === "teknisi" && (
           <Button onClick={onKerjakan}>Kerjakan</Button>
         )}
-        {data.status === "diperbaiki" && (
+        {data.status === "diperbaiki" && user.role === "teknisi" && (
           <>
             <Button
               variant={"outline"}
@@ -235,10 +236,10 @@ export default function RepairCard({ data, onKerjakan }) {
             <Button onClick={() => setFinishModalOpen(true)}>Selesai</Button>
           </>
         )}
-        {data.status === "menunggu pembayaran" && (
+        {data.status === "menunggu pembayaran" && user.role === "teknisi" && (
           <Button onClick={() => setOpenPayment(true)}>Bayar</Button>
         )}
-        {data.status === "siap diambil" && (
+        {data.status === "siap diambil" && user.role === "teknisi" && (
           <>
             <Button
               variant={"outline"}
@@ -294,15 +295,6 @@ export default function RepairCard({ data, onKerjakan }) {
         onClose={() => setOpenDetail(false)}
         id={data._id}
       />
-
-      {/* Modal Konfirmasi Ambil */}
-      {/* <ConfirmationModal
-        open={confirmPickup}
-        onClose={() => setConfirmPickup(false)}
-        title="Konfirmasi Ambil"
-        description="Apakah Anda yakin perangkat sudah diambil oleh pelanggan?"
-        onConfirm={() => pickupMutation.mutate()}
-      /> */}
     </div>
   );
 }

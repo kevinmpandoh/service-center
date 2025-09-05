@@ -1,5 +1,8 @@
 // src/app/teknisi/perbaikan-aktif/page.jsx
 "use client";
+import { DateRangePicker } from "@/components/common/DateRangePicker";
+import { ExportDropdown } from "@/components/common/ExportDropdown";
+import { PaginationControls } from "@/components/common/PaginationControls";
 import ProtectedRoute from "@/components/HOC/ProtectedRoute";
 import RepairDetailModal from "@/components/teknisi/RepairDetailModal";
 import RepairTabs from "@/components/teknisi/RepairTabs";
@@ -13,6 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { serviceOrderService } from "@/services/serviceOrder.service";
+import { useAuthStore } from "@/stores/auth.store";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Eye, FileDown, Plus, Search } from "lucide-react";
 import { useState } from "react";
@@ -21,16 +25,26 @@ export default function PerbaikanAktifPage() {
   const [searchInput, setSearchInput] = useState(""); // untuk input sementara
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
+  const [dateRange, setDateRange] = useState({
+    from: null,
+    to: null,
+  });
+  const { user } = useAuthStore();
 
   const [selectedId, setSelectedId] = useState(null);
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["service-orders", search, page],
+    queryKey: ["service-orders", search, dateRange, page],
     queryFn: () =>
       serviceOrderService.getAllFinishedServiceOrders({
         page,
         limit: 5,
-
+        startDate: dateRange?.from
+          ? dateRange.from.toISOString().split("T")[0]
+          : undefined,
+        endDate: dateRange?.to
+          ? dateRange.to.toISOString().split("T")[0]
+          : undefined,
         q: search,
       }),
     keepPreviousData: true,
@@ -42,11 +56,6 @@ export default function PerbaikanAktifPage() {
   const handleSearch = () => {
     setPage(1);
     setSearch(searchInput); // update query
-  };
-
-  const handleModalDetail = (id) => {
-    setSelectedOrder(id);
-    setOpenDetail(true);
   };
 
   const handleDownloadInvoice = async (id) => {
@@ -70,26 +79,43 @@ export default function PerbaikanAktifPage() {
     <ProtectedRoute allowedRoles={["admin", "teknisi"]}>
       <h1 className="text-3xl mb-4 font-semibold">Daftar Perbaikan Selesai</h1>
       <div className="flex justify-between items-center mb-6">
-        <div className="flex bg-white items-center border rounded-md overflow-hidden w-full max-w-md">
-          <span className="px-3 text-gray-400">
-            <Search size={18} />
-          </span>
-          <input
-            type="text"
-            placeholder="Cari pelanggan / perangkat..."
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            className="flex-1 px-2 py-2.5 focus:outline-none"
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()} // tekan Enter juga search
+        <div className="flex gap-2 items-center">
+          <div className="flex bg-white items-center border rounded-md overflow-hidden w-full max-w-md">
+            <span className="px-3 text-gray-400">
+              <Search size={18} />
+            </span>
+            <input
+              type="text"
+              placeholder="Cari pelanggan / perangkat..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              className="flex-1 px-2 py-2.5 focus:outline-none"
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()} // tekan Enter juga search
+            />
+            <Button size="sm" onClick={handleSearch} className={"mr-2"}>
+              Search
+            </Button>
+          </div>
+
+          <DateRangePicker
+            value={dateRange}
+            onChange={setDateRange}
+            onClear={() =>
+              setDateRange({
+                from: null,
+                to: null,
+              })
+            }
           />
-          <Button size="sm" onClick={handleSearch} className={"mr-2"}>
-            Search
-          </Button>
         </div>
 
-        {/* <Button size={"lg"} onClick={() => setIsModalOpen(true)}>
-          <Plus /> Unduh Laporan
-        </Button> */}
+        {user.role === "admin" && orders?.length > 0 && (
+          <ExportDropdown
+            startDate={dateRange.from}
+            endDate={dateRange.to}
+            type={"service"}
+          />
+        )}
       </div>
       {/* Tabs */}
 
@@ -163,25 +189,11 @@ export default function PerbaikanAktifPage() {
           </TableBody>
         </Table>
       </div>
-      <div className="flex justify-center mt-6 gap-2">
-        <button
-          disabled={pagination.page === 1}
-          onClick={() => setPage((p) => p - 1)}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Prev
-        </button>
-        <span className="px-3 py-1">
-          {pagination.page} / {pagination.totalPages}
-        </span>
-        <button
-          disabled={pagination.page === pagination.totalPages}
-          onClick={() => setPage((p) => p + 1)}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+      <PaginationControls
+        page={pagination.page}
+        totalPages={pagination.totalPages}
+        onPageChange={setPage}
+      />
 
       {selectedId && (
         <RepairDetailModal

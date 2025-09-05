@@ -16,6 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { sparepartService } from "@/services/sparepart.service";
+import { useAuthStore } from "@/stores/auth.store";
 import { useQuery } from "@tanstack/react-query";
 import { Eye, FileDown, Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { useState } from "react";
@@ -26,6 +27,7 @@ export default function KelolaSparepartPage() {
   const [page, setPage] = useState(1);
   const [modalData, setModalData] = useState(null); // bisa null atau objek sparepart
   const [deleteId, setDeleteId] = useState(null);
+  const { user } = useAuthStore();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["spareparts", search, page],
@@ -66,10 +68,11 @@ export default function KelolaSparepartPage() {
             Search
           </Button>
         </div>
-
-        <Button size={"lg"} onClick={() => setModalData({})}>
-          <Plus /> Tambah Sparepart
-        </Button>
+        {user.role === "sparepart" && (
+          <Button size={"lg"} onClick={() => setModalData({})}>
+            <Plus /> Tambah Sparepart
+          </Button>
+        )}
       </div>
       {/* Tabs */}
 
@@ -83,7 +86,9 @@ export default function KelolaSparepartPage() {
               <TableHead>Stok</TableHead>
               <TableHead>Harga Beli</TableHead>
               <TableHead>Harga Jual</TableHead>
-              <TableHead className={"text-center"}>Aksi</TableHead>
+              {user.role === "sparepart" && (
+                <TableHead className={"text-center"}>Aksi</TableHead>
+              )}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -107,24 +112,26 @@ export default function KelolaSparepartPage() {
                   <TableCell>
                     Rp {item.sellPrice.toLocaleString("id-ID")}
                   </TableCell>
-                  <TableCell className={"text-center"}>
-                    {/* <></> */}
+                  {user.role === "sparepart" && (
+                    <TableCell className={"text-center"}>
+                      {/* <></> */}
 
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setDeleteId(item._id)}
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </Button>
-                    <Button
-                      variant={"ghost"}
-                      size="icon"
-                      onClick={() => setModalData(item)}
-                    >
-                      <Pencil size={16} />
-                    </Button>
-                  </TableCell>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => setDeleteId(item._id)}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        variant={"ghost"}
+                        size="icon"
+                        onClick={() => setModalData(item)}
+                      >
+                        <Pencil size={16} />
+                      </Button>
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             ) : (

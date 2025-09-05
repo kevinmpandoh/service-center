@@ -19,6 +19,7 @@ import { DateRangePicker } from "@/components/common/DateRangePicker";
 import { ExportDropdown } from "@/components/common/ExportDropdown";
 import { Search } from "lucide-react";
 import ProtectedRoute from "@/components/HOC/ProtectedRoute";
+import { useAuthStore } from "@/stores/auth.store";
 
 export default function SparepartTerpakaiPage() {
   const [searchInput, setSearchInput] = useState("");
@@ -29,6 +30,7 @@ export default function SparepartTerpakaiPage() {
   });
 
   const [page, setPage] = useState(1);
+  const { user } = useAuthStore();
 
   const [deleteId, setDeleteId] = useState(null);
   const [modalData, setModalData] = useState(null);
@@ -93,7 +95,13 @@ export default function SparepartTerpakaiPage() {
           />
         </div>
 
-        <ExportDropdown startDate={dateRange.from} endDate={dateRange.to} />
+        {user.role === "admin" && (
+          <ExportDropdown
+            startDate={dateRange.from}
+            endDate={dateRange.to}
+            type={"sparepart"}
+          />
+        )}
       </div>
 
       <div className="bg-white p-4 rounded-md border">

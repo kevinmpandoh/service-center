@@ -8,6 +8,12 @@ import HistoryTable from "@/components/dashboard/HistoryTable";
 import BarChartDashboard from "@/components/common/BarChart";
 import RevenueChartCard from "@/components/common/LineChart";
 import ProtectedRoute from "@/components/HOC/ProtectedRoute";
+import {
+  CalendarCheck,
+  CalendarClock,
+  CircleDollarSign,
+  Wrench,
+} from "lucide-react";
 
 export default function AdminDashboardPage() {
   const { data, isLoading } = useQuery({
@@ -29,22 +35,22 @@ export default function AdminDashboardPage() {
           <SummaryCard
             title="Total Pendapatan Hari ini"
             value={summary.totalIncomeToday}
-            type="month"
+            icon={CircleDollarSign}
           />
           <SummaryCard
             title="Total Perbaikan Hari ini"
             value={summary.totalRepairsToday}
-            type="today"
+            icon={Wrench}
           />
           <SummaryCard
             title="Perangkat Diproses Hari ini"
             value={summary.totalRepairInProgress}
-            type="inProgress"
+            icon={CalendarClock}
           />
           <SummaryCard
             title="Total Sparepart digunakan"
             value={summary.totalSparepartUsed}
-            type="finish"
+            icon={CalendarCheck}
           />
         </div>
 

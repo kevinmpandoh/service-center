@@ -10,14 +10,19 @@ import {
 import { Download } from "lucide-react";
 import { sparepartService } from "@/services/sparepart.service";
 import { useState } from "react";
+import { serviceOrderService } from "@/services/serviceOrder.service";
 
-export function ExportDropdown({ startDate, endDate }) {
+export function ExportDropdown({ startDate, endDate, type }) {
   const [loading, setLoading] = useState(false);
 
   const handleExport = async (format) => {
     try {
       setLoading(true);
-      await sparepartService.exportUsed({ startDate, endDate, format });
+      if (type === "sparepart") {
+        await sparepartService.exportUsed({ startDate, endDate, format });
+      } else if (type === "service") {
+        await serviceOrderService.exportReport({ startDate, endDate, format });
+      }
     } catch (err) {
       console.error("Export error:", err);
     } finally {

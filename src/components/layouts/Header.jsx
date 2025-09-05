@@ -110,11 +110,11 @@ const Header = () => {
           <div className="flex items-center gap-2 2xsm:gap-3">
             {/* <!-- Dark Mode Toggler --> */}
 
-            <NotificationDropdown
+            {/* <NotificationDropdown
               isOpen={openDropdown === "notification"}
               onToggle={() => toggleDropdown("notification")}
               onClose={closeDropdown}
-            />
+            /> */}
             {/* <!-- Notification Menu Area --> */}
           </div>
           {/* <!-- User Area --> */}

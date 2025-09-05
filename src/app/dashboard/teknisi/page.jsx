@@ -7,6 +7,12 @@ import TaskList from "@/components/dashboard/TaskList";
 import HistoryTable from "@/components/dashboard/HistoryTable";
 import BarChartDashboard from "@/components/common/BarChart";
 import ProtectedRoute from "@/components/HOC/ProtectedRoute";
+import {
+  CalendarCheck,
+  CalendarClock,
+  CalendarDays,
+  Wrench,
+} from "lucide-react";
 
 export default function DashboardTeknisiPage() {
   const { data, isLoading } = useQuery({
@@ -28,22 +34,22 @@ export default function DashboardTeknisiPage() {
           <SummaryCard
             title="Total Perbaikan Bulan ini"
             value={summary.totalMonth}
-            type="month"
+            icon={CalendarDays}
           />
           <SummaryCard
             title="Total Perbaikan Hari ini"
             value={summary.totalToday}
-            type="today"
+            icon={Wrench}
           />
           <SummaryCard
             title="Perangkat Diproses Hari ini"
             value={summary.inProgress}
-            type="inProgress"
+            icon={CalendarClock}
           />
           <SummaryCard
             title="Perangkat Selesai Hari ini"
             value={summary.finishedToday}
-            type="finish"
+            icon={CalendarCheck}
           />
         </div>
 

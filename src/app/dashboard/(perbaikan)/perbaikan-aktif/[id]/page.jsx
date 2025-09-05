@@ -120,7 +120,7 @@ export default function TambahJasaSparepartPage() {
   }
 
   return (
-    <ProtectedRoute allowedRoles={["admin", "teknisi"]}>
+    <ProtectedRoute allowedRoles={["teknisi"]}>
       <h1 className="text-3xl font-semibold">Tambah Jasa & Sparepart</h1>
 
       {/* Informasi perangkat */}

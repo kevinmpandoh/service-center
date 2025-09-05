@@ -10,8 +10,14 @@ export const serviceOrderService = {
     const res = await api.get("/service-orders", { params });
     return res.data; // { data: [...], pagination: {...} }
   },
-  getAllFinishedServiceOrders: async ({ page = 1, limit = 10, q }) => {
-    const params = { page, limit };
+  getAllFinishedServiceOrders: async ({
+    page = 1,
+    limit = 10,
+    q,
+    startDate,
+    endDate,
+  }) => {
+    const params = { page, limit, startDate, endDate };
     if (q) params.q = q;
 
     const res = await api.get("/service-orders/finished", { params });
@@ -78,6 +84,29 @@ export const serviceOrderService = {
     return await api.get(`/service-orders/${id}/invoice`, {
       responseType: "blob",
     });
+  },
+  exportReport: async ({ startDate, endDate, format = "excel" }) => {
+    const res = await api.get(`/service-orders/finished/export`, {
+      params: { startDate, endDate, format },
+      responseType: "blob", // penting untuk download file
+    });
+
+    const blob = new Blob([res.data], {
+      type:
+        format === "pdf"
+          ? "application/pdf"
+          : "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download =
+      format === "pdf" ? "laporan_sparepart.pdf" : "laporan_sparepart.xlsx";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
   },
 
   estimatedService: async (payload) => {
