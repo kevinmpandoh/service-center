@@ -11,13 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useParams } from "next/navigation";
 import JasaFormModal from "@/components/teknisi/ServiceFormModal";
@@ -329,10 +323,10 @@ export default function TambahJasaSparepartPage() {
       {/* Tombol aksi */}
       <div className="flex justify-end gap-3">
         <Button variant="outline" size={"lg"}>
-          <Link href={"/dashboard/teknisi/perbaikan-aktif"}>Kembali</Link>
+          <Link href={"/dashboard/perbaikan-aktif"}>Kembali</Link>
         </Button>
         <Button size={"lg"}>
-          <Link href={"/dashboard/teknisi/perbaikan-aktif"}>Simpan</Link>
+          <Link href={"/dashboard/perbaikan-aktif"}>Simpan</Link>
         </Button>
       </div>
 

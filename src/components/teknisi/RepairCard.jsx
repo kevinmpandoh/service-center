@@ -228,7 +228,7 @@ export default function RepairCard({ data, onKerjakan }) {
             <Button
               variant={"outline"}
               onClick={() =>
-                router.push(`/dashboard/teknisi/perbaikan-aktif/${data._id}`)
+                router.push(`/dashboard/perbaikan-aktif/${data._id}`)
               }
             >
               <Plus /> Jasa & Sparepart
