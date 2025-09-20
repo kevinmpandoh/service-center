@@ -4,8 +4,6 @@ import { PaginationControls } from "@/components/common/PaginationControls";
 import ProtectedRoute from "@/components/HOC/ProtectedRoute";
 import { AddSparepartModal } from "@/components/sparepart/AddSparepartModal";
 import { DeleteConfirmModal } from "@/components/sparepart/DeleteConfirmModal";
-import RepairDetailModal from "@/components/teknisi/RepairDetailModal";
-import RepairTabs from "@/components/teknisi/RepairTabs";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -17,9 +15,10 @@ import {
 } from "@/components/ui/table";
 import { sparepartService } from "@/services/sparepart.service";
 import { useAuthStore } from "@/stores/auth.store";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Eye, FileDown, Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function KelolaSparepartPage() {
   const [searchInput, setSearchInput] = useState(""); // untuk input sementara
@@ -28,6 +27,7 @@ export default function KelolaSparepartPage() {
   const [modalData, setModalData] = useState(null); // bisa null atau objek sparepart
   const [deleteId, setDeleteId] = useState(null);
   const { user } = useAuthStore();
+  const queryClient = useQueryClient();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ["spareparts", search, page],
@@ -43,6 +43,21 @@ export default function KelolaSparepartPage() {
   const spareparts = data?.data || [];
   const pagination = data?.pagination || { page: 1, totalPages: 1 };
 
+  const mutation = useMutation({
+    mutationFn: (id) => sparepartService.delete(id),
+    onSuccess: () => {
+      setDeleteId(null);
+      toast.success("Sparepart berhasil di hapus");
+      queryClient.invalidateQueries(["spareparts"]);
+    },
+  });
+
+  const handleDelete = () => {
+    if (deleteId) {
+      mutation.mutate(deleteId);
+    }
+  };
+
   const handleSearch = () => {
     setPage(1);
     setSearch(searchInput); // update query
@@ -52,7 +67,7 @@ export default function KelolaSparepartPage() {
     <ProtectedRoute allowedRoles={["admin", "sparepart"]}>
       <h1 className="text-3xl mb-4 font-semibold">Daftar Sparepart</h1>
       <div className="flex justify-between items-center mb-6">
-        <div className="flex bg-white items-center border rounded-md overflow-hidden w-full max-w-md">
+        <div className="flex bg-white items-center border rounded-md overflow-hidden w-full max-w-xs">
           <span className="px-3 text-gray-400">
             <Search size={18} />
           </span>
@@ -160,7 +175,8 @@ export default function KelolaSparepartPage() {
       <DeleteConfirmModal
         open={!!deleteId}
         onOpenChange={() => setDeleteId(null)}
-        id={deleteId}
+        onDelete={handleDelete}
+        isLoading={mutation.isPending}
       />
     </ProtectedRoute>
   );

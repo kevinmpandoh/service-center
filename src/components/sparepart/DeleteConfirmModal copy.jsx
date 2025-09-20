@@ -20,7 +20,7 @@ export function DeleteConfirmModal({
         <DialogHeader>
           <DialogTitle>Konfirmasi Hapus</DialogTitle>
         </DialogHeader>
-        <p>Apakah Anda yakin ingin menghapus data ini?</p>
+        <p>Apakah Anda yakin ingin menghapus sparepart ini?</p>
         <div className="flex justify-end gap-2 pt-4">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Batal

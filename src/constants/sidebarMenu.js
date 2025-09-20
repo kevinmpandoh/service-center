@@ -26,6 +26,11 @@ export const sidebarMenu = {
       name: "Perbaikan Selesai",
       path: "/dashboard/perbaikan-selesai",
     },
+    {
+      icon: <MonitorSmartphone />,
+      name: "Kelola Perangkat",
+      path: "/dashboard/perangkat",
+    },
   ],
 
   sparepart: [
@@ -41,7 +46,7 @@ export const sidebarMenu = {
     },
     {
       icon: <Package />,
-      name: "Stok Sparepart",
+      name: "Sparepart Terpakai",
       path: "/dashboard/sparepart-terpakai",
     },
   ],
@@ -65,8 +70,13 @@ export const sidebarMenu = {
     },
     {
       icon: <Package />,
-      name: "Stok Sparepart",
+      name: "Sparepart Terpakai",
       path: "/dashboard/sparepart-terpakai",
+    },
+    {
+      icon: <MonitorSmartphone />,
+      name: "Kelola Perangkat",
+      path: "/dashboard/perangkat",
     },
     { icon: <Users />, name: "Manajemen User", path: "/dashboard/users" },
   ],

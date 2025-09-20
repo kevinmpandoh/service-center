@@ -14,6 +14,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { sparepartSchema } from "@/schemas/sparepart.schema";
 import { sparepartService } from "@/services/sparepart.service";
+import { toast } from "sonner";
 
 export function AddSparepartModal({ open, onOpenChange, initialData }) {
   const isEdit = Boolean(initialData?._id);
@@ -48,6 +49,7 @@ export function AddSparepartModal({ open, onOpenChange, initialData }) {
         ? sparepartService.update(initialData._id, data)
         : sparepartService.create(data),
     onSuccess: () => {
+      toast.success("Data Sparepart berhasil ditambahkan");
       queryClient.invalidateQueries(["spareparts"]);
       onOpenChange(false);
       reset();

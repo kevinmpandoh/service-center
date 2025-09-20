@@ -41,19 +41,22 @@ export default function Footer() {
           <a href="#estimate" className="hover:text-gray-300">
             Estimate
           </a>
+          <a href="#galleries" className="hover:text-gray-300">
+            Gallery
+          </a>
           <a href="#contact" className="hover:text-gray-300">
             Contact Us
           </a>
         </div>
 
         {/* Kanan: Sosial Media */}
-        <div className="flex space-x-6 justify-start md:justify-end">
+        <div className="flex space-x-6 justify-start md:justify-start">
           <a
             href="https://instagram.com"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Instagram className="text-2xl hover:text-gray-300" />
+            <Instagram size={28} className="text-2xl hover:text-gray-300" />
           </a>
           <a
             href="https://wa.me/62812345678910"
@@ -64,8 +67,8 @@ export default function Footer() {
               xmlns="http://www.w3.org/2000/svg"
               x="0px"
               y="0px"
-              width="24"
-              height="24"
+              width="28"
+              height="28"
               viewBox="0,0,256,256"
             >
               <g
@@ -95,7 +98,7 @@ export default function Footer() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <Facebook className="text-2xl hover:text-gray-300" />
+            <Facebook size={28} className="text-2xl hover:text-gray-300" />
           </a>
         </div>
       </div>

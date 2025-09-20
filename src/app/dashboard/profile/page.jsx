@@ -150,7 +150,7 @@ export default function ProfilePage() {
 
                     {/* Role */}
                     <div>
-                      <p className="text-lg text-gray-500">Role</p>
+                      <p className="text-base text-gray-500">Role</p>
                       <Input {...register("role")} disabled />
                     </div>
                   </div>

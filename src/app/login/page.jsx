@@ -8,9 +8,10 @@ import { useState } from "react";
 import { authService } from "../../services/auth.service";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Eye, EyeOff } from "lucide-react";
+import { ChevronLeft, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { useAuthStore } from "@/stores/auth.store";
+import Link from "next/link";
 
 // schema validasi yup
 const schema = yup.object({
@@ -58,7 +59,13 @@ export default function LoginPage() {
   const onSubmit = (data) => mutation.mutate(data);
 
   return (
-    <div className="flex flex-col gap-5 min-h-screen items-center pt-20 bg-slate-50">
+    <div className="relative flex flex-col gap-5 min-h-screen items-center pt-20 bg-slate-200">
+      <Link
+        href={"/"}
+        className="absolute top-10 left-10 flex items-center py-2 px-4 rounded-[16px] bg-slate-100 shadow-md"
+      >
+        <ChevronLeft size={18} /> Back
+      </Link>
       <Image src={"/logo1.png"} alt="Logo" width={196} height={121} />
       <div className="text-center justify-start text-black text-3xl font-semibold font-['Nunito'] leading-10">
         Selamat Datang
@@ -117,7 +124,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={mutation.isPending}
-              className="w-[180px] rounded-md bg-white py-2 font-medium text-[#0f172a] hover:bg-gray-200 disabled:opacity-50"
+              className="w-[180px] rounded-md border-2 border-white py-2 font-medium text-white disabled:opacity-50 cursor-pointer hover:bg-slate-700 bg-slate-900"
             >
               {mutation.isPending ? "Loading..." : "Login"}
             </button>

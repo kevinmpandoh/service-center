@@ -90,11 +90,20 @@ export default function EstimateSection() {
 
   return (
     <section id="estimate" className="max-w-7xl mx-auto py-12">
+      <div className="text-center mb-8">
+        <div className="flex justify-center items-center gap-2 text-black mb-2">
+          <Image src={"/estimate.svg"} width={24} height={24} alt="Logo" />
+          <h3 className="text-2xl">Estimate</h3>
+        </div>
+        <h2 className="font-semibold text-lg sm:text-2xl md:text-3xl">
+          Estimasi Perangkat Anda
+        </h2>
+      </div>
+
       <div className="relative">
         {/* Left form container */}
-        <div className="bg-[#121B2E] rounded-md p-8 pr-20 flex-1 max-w-3xl md:w-3/4">
+        <div className="bg-[#121B2E] rounded-md p-8 pr-20 mr-40 flex-1 max-w-3xl md:w-3/4">
           <h2 className="text-white font-semibold text-2xl flex items-center gap-2 mb-4">
-            <Image src={"/estimate.svg"} alt="Logo" width={24} height={24} />{" "}
             Estimasi Harga dan Waktu Perbaikan
           </h2>
           <p className="text-[#D1D5DB] text-lg mb-8 leading-relaxed">
@@ -278,7 +287,7 @@ export default function EstimateSection() {
         </div>
 
         {/* Right result container */}
-        <div className="absolute top-5 -right-20 transform translate-x-1/4  bg-[#E6EDF5] rounded-md p-6 flex-1 max-w-md flex flex-col">
+        <div className="absolute top-5 -right-5 transform translate-x-1/4  bg-[#E6EDF5] rounded-md p-6 flex-1 max-w-md flex flex-col">
           <h3 className="text-[#121B2E] font-semibold text-2xl mb-4">
             Estimasi Biaya & Waktu Perbaikan
           </h3>

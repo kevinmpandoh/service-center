@@ -67,7 +67,7 @@ export default function PerbaikanAktifPage() {
     <ProtectedRoute allowedRoles={["admin", "teknisi"]}>
       <h1 className="text-3xl mb-4 font-semibold">Daftar Perbaikan Aktif</h1>
       <div className="flex justify-between items-center mb-6">
-        <div className="flex bg-white items-center border rounded-md overflow-hidden w-full max-w-md">
+        <div className="flex bg-white items-center border rounded-md overflow-hidden w-full max-w-xs">
           <span className="px-3 text-gray-400">
             <Search size={18} />
           </span>

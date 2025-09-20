@@ -36,7 +36,6 @@ export const serviceOrderService = {
   },
 
   createDetail: async (orderId, data) => {
-    console.log(data, "DATA REQ");
     const res = await api.post(`/service-orders/${orderId}/details`, data);
     return res.data;
   },

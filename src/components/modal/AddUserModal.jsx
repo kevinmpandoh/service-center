@@ -22,6 +22,7 @@ import {
 
 import { userSchema } from "@/schemas/users.schema";
 import { userService } from "@/services/user.service";
+import { toast } from "sonner";
 
 export function AddUserModal({ open, onOpenChange, initialData }) {
   const isEdit = Boolean(initialData?._id);
@@ -68,6 +69,12 @@ export function AddUserModal({ open, onOpenChange, initialData }) {
       queryClient.invalidateQueries(["users"]);
       onOpenChange(false);
       reset();
+    },
+    onError: (error) => {
+      toast.error(
+        error.response?.data?.message ||
+          "Data user gagal ditambahkan. Silahkan coba lagi"
+      );
     },
   });
 

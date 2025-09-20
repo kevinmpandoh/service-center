@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { sparepartService } from "@/services/sparepart.service";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,8 +12,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import { DeleteConfirmModal } from "@/components/sparepart/DeleteConfirmModal";
-import { AddSparepartModal } from "@/components/sparepart/AddSparepartModal";
 import { PaginationControls } from "@/components/common/PaginationControls";
 import { DateRangePicker } from "@/components/common/DateRangePicker";
 import { ExportDropdown } from "@/components/common/ExportDropdown";
@@ -31,9 +29,6 @@ export default function SparepartTerpakaiPage() {
 
   const [page, setPage] = useState(1);
   const { user } = useAuthStore();
-
-  const [deleteId, setDeleteId] = useState(null);
-  const [modalData, setModalData] = useState(null);
 
   const { data, isLoading } = useQuery({
     queryKey: ["used-spareparts", search, dateRange, page],
@@ -151,39 +146,6 @@ export default function SparepartTerpakaiPage() {
         page={pagination.page}
         totalPages={pagination.totalPages}
         onPageChange={setPage}
-      />
-      {/* <div className="flex justify-center mt-6 gap-2">
-        <button
-          disabled={pagination.page === 1}
-          onClick={() => setPage((p) => p - 1)}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Prev
-        </button>
-        <span className="px-3 py-1">
-          {pagination.page} / {pagination.totalPages}
-        </span>
-        <button
-          disabled={pagination.page === pagination.totalPages}
-          onClick={() => setPage((p) => p + 1)}
-          className="px-3 py-1 border rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div> */}
-
-      {/* Modal Konfirmasi Hapus */}
-      <DeleteConfirmModal
-        open={!!deleteId}
-        onOpenChange={() => setDeleteId(null)}
-        id={deleteId}
-      />
-
-      {/* Modal Edit */}
-      <AddSparepartModal
-        open={!!modalData}
-        onOpenChange={() => setModalData(null)}
-        initialData={modalData}
       />
     </ProtectedRoute>
   );

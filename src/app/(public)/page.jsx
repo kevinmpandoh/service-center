@@ -7,10 +7,11 @@ import Footer from "./Footer";
 import AboutSection from "./AboutSection";
 import HeroSection from "./HeroSection";
 import Navbar from "./Navbar";
+import GallerySection from "./GallerySection";
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-slate-50 flex flex-col">
       {/* Navbar */}
       <Navbar />
 
@@ -22,6 +23,7 @@ export default function HomePage() {
 
       <ServicesSection />
       <EstimateSection />
+      <GallerySection />
       <ContactSection />
       <Footer />
     </div>

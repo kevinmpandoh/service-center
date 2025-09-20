@@ -20,7 +20,7 @@ export default function AboutSection() {
         </div>
         <div className="w-[260px] h-[395px] absolute -bottom-10 right-10 overflow-hidden">
           <Image
-            src="/about2.png" // ganti gambar
+            src="/about3.png" // ganti gambar
             alt="Technician"
             fill
             className="object-cover"
@@ -55,10 +55,10 @@ export default function AboutSection() {
           </li>
         </ul>
         <div className="flex gap-4">
-          <span className="px-4 py-2 border border-slate-800 rounded-2xl text-sm font-medium">
+          <span className="px-4 py-2 border border-slate-800 rounded-2xl text-lg font-medium">
             8+ Tahun Pengalaman
           </span>
-          <span className="px-4 py-2 border border-slate-800 rounded-2xl text-sm font-medium">
+          <span className="px-4 py-2 border border-slate-800 rounded-2xl text-lg font-medium">
             10.000+ Perangkat Diperbaiki
           </span>
         </div>
