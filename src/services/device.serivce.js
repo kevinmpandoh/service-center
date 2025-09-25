@@ -12,7 +12,7 @@ export const getBrands = async ({ type }) => {
 };
 
 export const getDeviceModels = async (brandId) => {
-  const res = await api.get(`/device-models?brand=${brandId}&limit=20`);
+  const res = await api.get(`/device-models/brand?brand=${brandId}&limit=20`);
   return res.data.data; // karena backend balikin { data }
 };
 
