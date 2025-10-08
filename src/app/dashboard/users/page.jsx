@@ -79,38 +79,8 @@ export default function KelolaUserPage() {
 
   return (
     <ProtectedRoute allowedRoles={["admin"]}>
-      <h1 className="text-3xl mb-4 font-semibold">Daftar Pengguna</h1>
       <div className="flex justify-between items-center mb-6">
-        <div className="mb-4 flex items-center gap-4">
-          <div className="flex bg-white items-center border rounded-md overflow-hidden w-full max-w-md">
-            <span className="px-3 text-gray-400">
-              <Search size={18} />
-            </span>
-            <input
-              type="text"
-              placeholder="Cari sparepart"
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
-              className="flex-1 px-2 py-2.5 focus:outline-none"
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()} // tekan Enter juga search
-            />
-            <Button size="sm" onClick={handleSearch} className={"mr-2"}>
-              Search
-            </Button>
-          </div>
-
-          <span>Filter:</span>
-          <Select value={filterRole} onValueChange={setFilterRole}>
-            <SelectTrigger className="w-[180px] bg-white">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Semua</SelectItem>
-              <SelectItem value="teknisi">Teknisi</SelectItem>
-              <SelectItem value="sparepart">Sparepart</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        <h1 className="text-3xl mb-4 font-semibold">Daftar Pengguna</h1>
 
         <Button size={"lg"} onClick={() => setModalData({})}>
           <Plus /> Tambah User

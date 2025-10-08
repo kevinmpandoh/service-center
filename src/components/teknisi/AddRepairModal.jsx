@@ -73,19 +73,13 @@ export function AddRepairModal({ open, onOpenChange }) {
       accessories: "",
       customerName: "",
       customerWa: "",
-      dp: false,
-      paymentMethod: "cash",
-      amount: "",
-      proof: null,
     },
   });
   const deviceType = watch("deviceType");
-  const dp = watch("dp");
+
   const damage = watch("damage");
   const brand = watch("brand");
   const model = watch("model");
-
-  const paymentMethod = watch("paymentMethod");
 
   const { data: models, isLoading: loadingModels } = useDeviceModels(
     watch("brand")
@@ -109,7 +103,6 @@ export function AddRepairModal({ open, onOpenChange }) {
 
   // Submit
   const onSubmit = (values) => {
-    console.log(values, "VALUES");
     const payload = {
       device: {
         category: deviceType,
@@ -124,18 +117,7 @@ export function AddRepairModal({ open, onOpenChange }) {
       },
       estimatedCost: 120000,
       estimatedTime: "1 Jam 23 Menit",
-      downPayment: values.dp
-        ? {
-            method: values.paymentMethod,
-            amount: values.dpAmount,
-            proofUrl: uploadedUrl,
-          }
-        : null,
     };
-
-    if (payload.downPayment?.method === "cash") {
-      delete payload.downPayment.proofUrl;
-    }
 
     mutation.mutate(payload);
   };
@@ -202,26 +184,7 @@ export function AddRepairModal({ open, onOpenChange }) {
     fetchEstimate();
   }, [brand, model, damage, brands, models, damages]);
 
-  // scroll saat DP diaktifkan
-  useEffect(() => {
-    if (dp && paymentRef.current) {
-      setTimeout(() => {
-        paymentRef.current?.scrollIntoView({
-          behavior: "smooth",
-          block: "end",
-        });
-      }, 350); // kasih delay 300-350ms (sesuai durasi animasi)
-    }
-  }, [dp]);
-
   // scroll saat pilih transfer
-  useEffect(() => {
-    if (paymentMethod === "transfer" && uploadRef.current) {
-      setTimeout(() => {
-        uploadRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-      }, 350);
-    }
-  }, [paymentMethod]);
 
   // reset type kalau brand berubah
   useEffect(() => {
@@ -414,101 +377,7 @@ export function AddRepairModal({ open, onOpenChange }) {
                   <Input {...register("customerPhone")} />
                 </div>
               </div>
-
-              <div className="flex items-center gap-2 mt-3">
-                <Checkbox
-                  id="dp"
-                  checked={dp}
-                  onCheckedChange={(checked) => setValue("dp", !!checked)}
-                />
-                <Label htmlFor="dp" className={"text-lg"}>
-                  Anda ingin tambahkan DP?
-                </Label>
-              </div>
             </div>
-            {/* PEMBAYARAN */}
-            <AnimatePresence>
-              {dp && (
-                <motion.div
-                  key="payment-section"
-                  ref={paymentRef}
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                  className="overflow-hidden"
-                >
-                  <h3 className="font-medium mb-2">Pembayaran</h3>
-                  <div className="flex border rounded-lg overflow-hidden">
-                    <button
-                      type="button"
-                      onClick={() => setValue("paymentMethod", "cash")}
-                      className={cn(
-                        "flex-1 py-2 text-sm",
-                        paymentMethod === "cash"
-                          ? "bg-primary text-white"
-                          : "bg-muted text-muted-foreground"
-                      )}
-                    >
-                      Cash
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setValue("paymentMethod", "transfer")}
-                      className={cn(
-                        "flex-1 py-2 text-sm",
-                        paymentMethod === "transfer"
-                          ? "bg-primary text-white"
-                          : "bg-muted text-muted-foreground"
-                      )}
-                    >
-                      Transfer
-                    </button>
-                  </div>
-
-                  <div className="mt-3">
-                    <Label>Jumlah yang dibayar</Label>
-                    <Input {...register("dpAmount")} />
-                    <p className="text-red-500 text-xs">
-                      {errors.dpAmount?.message}
-                    </p>
-                  </div>
-
-                  <AnimatePresence>
-                    {paymentMethod === "transfer" && (
-                      <motion.div
-                        key="upload-section"
-                        ref={uploadRef}
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.25, ease: "easeInOut" }}
-                        className="overflow-hidden mt-3"
-                      >
-                        <Label>Upload Bukti Pembayaran</Label>
-                        <Input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleUpload}
-                        />
-                        {uploading && (
-                          <p className="text-sm text-gray-500">Uploading...</p>
-                        )}
-                        {uploadedUrl && (
-                          <div className="mt-2">
-                            <img
-                              src={uploadedUrl}
-                              alt="Bukti pembayaran"
-                              className="h-32 rounded-md border"
-                            />
-                          </div>
-                        )}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
 
           {/* FOOTER */}
