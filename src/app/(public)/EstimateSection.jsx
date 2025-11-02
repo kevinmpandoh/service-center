@@ -17,6 +17,7 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { serviceOrderService } from "@/services/serviceOrder.service";
 import Image from "next/image";
+import { toast } from "sonner";
 
 // Validasi dengan Yup
 const schema = yup.object().shape({
@@ -54,8 +55,6 @@ export default function EstimateSection() {
     },
   });
 
-  console.log(errors, "ERRORNYA");
-
   const deviceType = watch("deviceType");
   const brand = watch("brand");
   const model = watch("model");
@@ -65,17 +64,22 @@ export default function EstimateSection() {
     watch("brand")
   );
 
-  console.log(models, "MODELSNYA");
-
   // Mutasi untuk estimasi
   const estimateMutation = useMutation({
     mutationFn: serviceOrderService.estimatedService,
     onSuccess: (data) => {
+      console.log(data, ":DATA");
       if (data?.success) {
         setResult(data); // langsung simpan respons ke state
       }
     },
+    onError: (error) => {
+      toast.error("Estimasi tidak ditemukan");
+      setResult(null); // reset result on error
+    },
   });
+
+  console.log(result, "RESULT");
 
   // Simulasi hasil estimasi
   const onSubmit = (data) => {
@@ -297,8 +301,8 @@ export default function EstimateSection() {
           <div className="bg-white rounded-md p-4 mb-4">
             <p className="text-lg text-[#6B7280] mb-1">Perkiraan Biaya</p>
             <p className="text-[#121B2E] font-semibold text-xl">
-              {result?.estimated_cost
-                ? formatRupiah(result.estimated_cost)
+              {result?.estimated_cost_category
+                ? result.estimated_cost_category
                 : "-"}
             </p>
           </div>
@@ -306,31 +310,26 @@ export default function EstimateSection() {
           <div className="bg-white rounded-md p-4 mb-6">
             <p className="text-lg text-[#6B7280] mb-1">Perkiraan Waktu</p>
             <p className="text-[#121B2E] font-semibold text-xl">
-              {result?.time || "-"}
+              {result?.estimated_time || "-"}
             </p>
           </div>
 
           <div className="text-[#121B2E] text-base leading-relaxed">
             <p className="font-semibold mb-1">Rincian</p>
             <p>
+              Merek:{" "}
+              <span className="font-normal capitalize">
+                {result?.brand || "-"}
+              </span>
+              <br />
               Tipe:{" "}
-              <span className="font-normal">
-                {result?.details?.deviceType || "-"}
-              </span>
-              <br />
-              Jenis:{" "}
-              <span className="font-normal">
-                {result?.details?.brand || "-"}
-              </span>
-              <br />
-              Model:{" "}
-              <span className="font-normal">
-                {result?.details?.model || "-"}
+              <span className="font-normal capitalize">
+                {result?.type || "-"}
               </span>
               <br />
               Kerusakan:{" "}
-              <span className="font-normal">
-                {result?.details?.damage || "-"}
+              <span className="font-normal capitalize">
+                {result?.damage || "-"}
               </span>
             </p>
           </div>
