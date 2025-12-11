@@ -17,7 +17,7 @@ export default function Footer() {
 
           {/* Kontak */}
           <div className="flex items-center gap-3 text-base">
-            <Phone size={18} /> 0812345678910
+            <Phone size={18} /> 0811-4377-700
           </div>
           <div className="flex items-center gap-3 text-base">
             <MapPin size={18} /> Megamas, Manado, Sulawesi Utara
@@ -59,7 +59,7 @@ export default function Footer() {
             <Instagram size={28} className="text-2xl hover:text-gray-300" />
           </a>
           <a
-            href="https://wa.me/62812345678910"
+            href="https://wa.me/628114377700"
             target="_blank"
             rel="noopener noreferrer"
           >

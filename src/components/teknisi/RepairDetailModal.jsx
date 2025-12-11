@@ -92,10 +92,10 @@ export default function RepairDetailModal({ open, onClose, id }) {
                 <span>: {data.damage}</span>
                 {/* <span>Tingkat Kerusakan</span>
               <span>: {data.damage.level}</span> */}
-                <span>Estimasi Harga Perbaikan</span>
+                {/* <span>Estimasi Harga Perbaikan</span>
                 <span>: Rp {data.estimatedCost?.toLocaleString("id-ID")}</span>
                 <span>Estimasi Waktu Perbaikan</span>
-                <span>: {data.estimatedTime}</span>
+                <span>: {data.estimatedTime}</span> */}
               </div>
             </section>
 
@@ -129,9 +129,14 @@ export default function RepairDetailModal({ open, onClose, id }) {
                   <tbody>
                     {data?.services.map((service, idx) => (
                       <tr key={idx}>
-                        <td className="p-2 border">{service.name}</td>
                         <td className="p-2 border">
-                          Rp {service.price?.toLocaleString("id-ID") || 0}
+                          {service.name || service.customServiceName}
+                        </td>
+                        <td className="p-2 border">
+                          Rp{" "}
+                          {(
+                            service.price || service.customPrice
+                          )?.toLocaleString("id-ID") || 0}
                         </td>
                       </tr>
                     ))}
@@ -193,11 +198,11 @@ export default function RepairDetailModal({ open, onClose, id }) {
                   <span>
                     : Rp {data.payment.totalPaid?.toLocaleString("id-ID")}
                   </span>
-                  <span>Sisa Pembayaran</span>
+                  {/* <span>Sisa Pembayaran</span>
                   <span>
                     : Rp{" "}
                     {data.payment.remaining?.toLocaleString("id-ID") || "-"}
-                  </span>
+                  </span> */}
 
                   {data.payment.proofs.length > 0 && (
                     <div className="mt-2">

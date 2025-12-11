@@ -115,7 +115,7 @@ export default function TambahJasaSparepartPage() {
 
   return (
     <ProtectedRoute allowedRoles={["teknisi"]}>
-      <h1 className="text-3xl font-semibold">Tambah Jasa & Sparepart</h1>
+      <h1 className="text-3xl font-semibold mb-4">Tambah Jasa & Sparepart</h1>
 
       <div className="space-y-6">
         {/* Informasi perangkat */}
@@ -154,7 +154,7 @@ export default function TambahJasaSparepartPage() {
             <p className="font-medium">Handphone</p>
           </div> */}
 
-              <div>
+              {/* <div>
                 <p className="text-sm text-gray-500">
                   Estimasi Waktu Perbaikan
                 </p>
@@ -167,7 +167,7 @@ export default function TambahJasaSparepartPage() {
                 <p className="font-medium">
                   Rp {data.estimatedCost.toLocaleString("id-ID")}
                 </p>
-              </div>
+              </div> */}
             </div>
           </CardContent>
         </Card>

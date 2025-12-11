@@ -5,7 +5,7 @@ import Image from "next/image";
 const services = [
   {
     title: "Perbaikan Handphone",
-    desc: "Proses perbaikan dilakukan dengan cepat dan tepat tanpa mengurangi kualitas layanan.",
+    desc: "Proses perbaikan handphone yang dilakukan dengan cepat dan tepat tanpa mengurangi kualitas layanan.",
     icon: (
       <Image
         src={"/repair-phone.svg"}
@@ -19,7 +19,7 @@ const services = [
   },
   {
     title: "Perbaikan Laptop",
-    desc: "Proses perbaikan dilakukan dengan cepat dan tepat tanpa mengurangi kualitas layanan.",
+    desc: "Proses perbaikan laptop yang dilakukan dengan cepat dan tepat tanpa mengurangi kualitas layanan.",
     icon: (
       <Image
         src={"/repair-pc.svg"}
@@ -33,7 +33,7 @@ const services = [
   },
   {
     title: "Pembersihan Perangkat",
-    desc: "Layanan pembersihan perangkat dari debu, kotoran, dan thermal paste agar performa kembali maksimal.",
+    desc: "Layanan pembersihan perangkat dari debu, kotoran, dan penggantian thermal paste agar performa kembali maksimal.",
     icon: (
       <Image
         src={"/clean-service.svg"}
@@ -47,7 +47,7 @@ const services = [
   },
   {
     title: "Estimasi Perbaikan Perangkat",
-    desc: "Estimasi harga diberikan di awal sehingga pelanggan tahu biaya sebelum perbaikan dilakukan.",
+    desc: "Estimasi biaya dan estimasi waktu perbaikan diberikan di awal sehingga pelanggan tahu biaya dan waktu yang dibutuhkan sebelum perbaikan dilakukan.",
     icon: (
       <Image
         src={"/estimate.png"}
@@ -91,7 +91,10 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section id="services" className="max-w-7xl mx-auto px-4 py-12">
+    <section
+      id="services"
+      className="md:max-w-7xl max-w-6xl  mx-auto px-4 py-12"
+    >
       {/* Section Title */}
       <div className="text-center mb-8">
         <div className="flex justify-center items-center gap-2 text-black mb-2">
@@ -126,12 +129,12 @@ export default function ServicesSection() {
             </div>
 
             {/* Title */}
-            <h3 className="font-semibold text-white mb-2 text-sm sm:text-2xl">
+            <h3 className="font-semibold text-white mb-2 text-lg sm:text-2xl">
               {service.title}
             </h3>
 
             {/* Description */}
-            <p className="text-white text-xl sm:text-base max-w-[260px]">
+            <p className="text-white text-sm sm:text-base leading-relaxed max-w-[260px]">
               {service.desc}
             </p>
           </div>

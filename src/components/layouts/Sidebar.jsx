@@ -31,7 +31,11 @@ const Sidebar = () => {
 
   const navItems = sidebarMenu[user?.role] || []; // pilih menu sesuai role
 
-  const isActive = useCallback((path) => path === pathname, [pathname]);
+  // const isActive = useCallback((path) => path === pathname, [pathname]);
+  const isActive = useCallback(
+    (path) => pathname === path || pathname.startsWith(path + "/"),
+    [pathname]
+  );
   const isAnySubItemActive = (subItems) =>
     subItems?.some((sub) => isActive(sub.path));
 

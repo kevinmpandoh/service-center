@@ -43,8 +43,6 @@ export function AddRepairModal({ open, onOpenChange }) {
 
   const [uploading, setUploading] = useState(false);
   const [uploadedUrl, setUploadedUrl] = useState("");
-  const [estimate, setEstimate] = useState(null);
-  const [loadingEstimate, setLoadingEstimate] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -140,49 +138,6 @@ export function AddRepairModal({ open, onOpenChange }) {
       setUploading(false);
     }
   };
-
-  useEffect(() => {
-    const fetchEstimate = async () => {
-      // pastikan semua field sudah dipilih
-      if (!brand || !model || !damage) {
-        setEstimate(null);
-        return;
-      }
-
-      const brandName = brands?.find((b) => b._id === brand)?.name;
-      const modelName = models?.find((m) => m._id === model)?.name;
-      const damageName = damages?.find((d) => d._id === damage)?.name;
-
-      try {
-        setLoadingEstimate(true);
-        const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL_ESTIMATE}/estimate`,
-          {
-            brand: brandName,
-            type: modelName,
-            damage: damageName,
-          }
-        );
-
-        if (data.success) {
-          setEstimate(data.estimated_cost);
-        } else {
-          setEstimate(null);
-        }
-
-        console.log(data);
-        // setEstimate(data); // misal { price: 52000, time: "1 Jam" }
-      } catch (err) {
-        console.log("Gagal ambil estimasi:", err);
-        console.error("Gagal ambil estimasi:", err);
-        setEstimate(null);
-      } finally {
-        setLoadingEstimate(false);
-      }
-    };
-
-    fetchEstimate();
-  }, [brand, model, damage, brands, models, damages]);
 
   // scroll saat pilih transfer
 
@@ -337,26 +292,6 @@ export function AddRepairModal({ open, onOpenChange }) {
                   </p>
                 </div>
               </div>
-              {loadingEstimate && (
-                <p className="text-sm text-gray-500 mt-2">
-                  Menghitung estimasi...
-                </p>
-              )}
-
-              {estimate && (
-                <div
-                  className="p-4 mb-4 mt-2.5 text-sm text-warning-700 rounded-lg bg-warning-50 dark:bg-gray-800 dark:text-yellow-300"
-                  role="alert"
-                >
-                  Biaya perbaikan diperkirakan sekitar{" "}
-                  <span className="font-bold">
-                    Rp {estimate?.toLocaleString("id-ID")}
-                  </span>{" "}
-                  dan estimasi waktu pengerjaan adalah{" "}
-                  <span className="font-bold">{estimate.time}</span>. Estimasi
-                  dapat berubah sesuai hasil pemeriksaan teknisi.
-                </div>
-              )}
             </div>
 
             {/* DATA PELANGGAN */}

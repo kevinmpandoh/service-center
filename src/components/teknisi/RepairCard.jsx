@@ -151,10 +151,10 @@ export default function RepairCard({ data, onKerjakan }) {
             <h6 className="text-xl">Kerusakan</h6>
           </div>
           <div className="text-base font-semibold text-neutral-800 space-y-1">
-            <p>Mati Total</p>
+            <p>{data.damage}</p>
           </div>
         </div>
-        {data.status === "diterima" && (
+        {/* {data.status === "diterima" && (
           <div className="w-full space-y-2">
             <div className="flex justify-start items-center gap-2 text-slate-600">
               <Clock4 size={20} />
@@ -165,7 +165,7 @@ export default function RepairCard({ data, onKerjakan }) {
               <p>{data.estimatedTime}</p>
             </div>
           </div>
-        )}
+        )} */}
         {data.status === "diperbaiki" && (
           <>
             <div className="w-full space-y-2">

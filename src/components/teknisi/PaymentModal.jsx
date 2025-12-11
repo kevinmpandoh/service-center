@@ -65,10 +65,10 @@ export default function PaymentModal({ open, onClose, summary, onSubmit }) {
             <span>Biaya Sparepart</span>
             <span>Rp. {summary.sparepart}</span>
           </div>
-          <div className="flex justify-between">
+          {/* <div className="flex justify-between">
             <span>DP</span>
             <span>Rp. {summary.dp}</span>
-          </div>
+          </div> */}
           <div className="flex justify-between font-semibold border-t text-lg text-slate-900">
             <span>Total</span>
             <span>Rp. {summary.total}</span>
