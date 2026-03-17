@@ -6,7 +6,7 @@ export default function LowStock({ spareparts }) {
   console.log(spareparts, "SPAREPARTNYA");
   return (
     <div className="bg-white rounded-lg p-4 shadow">
-      <h2 className="font-semibold mb-3 text-xl">Kelola Perbaikan Anda</h2>
+      <h2 className="font-semibold mb-3 text-xl">Kelola Stok Anda</h2>
 
       {spareparts?.length === 0 && (
         <p className="text-gray-500 text-sm italic">
